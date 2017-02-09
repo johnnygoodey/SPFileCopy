@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="13250768-13a6-4632-8d49-a47011d5087c" Version="1.6.0.1" Language="en-US" Publisher="Johnny Goodey" />
-    <DisplayName>SPFileCopy</DisplayName>
-    <Description xml:space="preserve">Copies files on save to another location</Description>
+    <Identity Id="13250768-13a6-4632-8d49-a47011d5087c" Version="1.6.0.2" Language="en-US" Publisher="Johnny Goodey" />
+    <DisplayName>SP 2013 File Copy</DisplayName>
+    <Description xml:space="preserve">Copies files on save to a SharePoint library</Description>
   </Metadata>
   <Installation InstalledByMsi="false">
     <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Enterprise" />

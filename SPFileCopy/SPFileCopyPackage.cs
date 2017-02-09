@@ -54,7 +54,7 @@ namespace Britehouse.SPFileCopy
         public SPFileCopyPackage()
         {
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", ToString()));
-            LogToOutput("Entering constructor");
+            //LogToOutput("Entering constructor");
         }
 
         /////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ namespace Britehouse.SPFileCopy
         protected override void Initialize()
         {
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", ToString()));
-            LogToOutput("Entering Initialize");
+            //LogToOutput("Entering Initialize");
             try
             {
                 base.Initialize();
@@ -409,7 +409,7 @@ namespace Britehouse.SPFileCopy
                          where sourceElement != null
                          let targetElement = b.Element("target")
                          where targetElement != null
-                         where filePath.ToLower().Contains(sourceElement.Value.ToLower())
+                         where filePath.Replace("\\", "/").ToLower().Contains(sourceElement.Value.ToLower())
                          select new Mapping()
                          {
                              Site = siteElement.Value,
