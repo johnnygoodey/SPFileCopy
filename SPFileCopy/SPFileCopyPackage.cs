@@ -477,7 +477,7 @@ namespace Britehouse.SPFileCopy
                     web = ctx.Web;
                     web.EnsureProperty(w => w.ServerRelativeUrl);
                 }
-                catch (Exception ex)
+                catch
                 {
                     if (ctx != null)
                     {
