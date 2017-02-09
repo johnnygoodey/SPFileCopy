@@ -54,12 +54,13 @@ namespace Britehouse.SPFileCopy
         public SPFileCopyPackage()
         {
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", ToString()));
+            LogToOutput("Entering constructor");
         }
-        
+
         /////////////////////////////////////////////////////////////////////////////
         // Overridden Package Implementation
         #region Package Members
-        
+
         private DocumentEvents _docEvents;
         private ProjectItemsEvents _projItemsEvents;
         private Web web;
@@ -72,35 +73,44 @@ namespace Britehouse.SPFileCopy
         /// </summary>
         protected override void Initialize()
         {
-            Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", ToString()));
-            base.Initialize();
-
-            // Add our command handlers for menu (commands must exist in the .vsct file)
-            var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if ( null != mcs )
+            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", ToString()));
+            LogToOutput("Entering Initialize");
+            try
             {
-                // Create the command for the menu item.
-                var menuCommandId = new CommandID(GuidList.guidSPFileCopyCmdSet, (int)PkgCmdIDList.cmdidUpdateFileReferences);
-                //var menuItem = new MenuCommand(MenuItemCallback, menuCommandId );
+                base.Initialize();
 
-                var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandId);
-                menuItem.BeforeQueryStatus += menuCommand_BeforeQueryStatus;
-                mcs.AddCommand( menuItem );
+                // Add our command handlers for menu (commands must exist in the .vsct file)
+                var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+                if (null != mcs)
+                {
+                    // Create the command for the menu item.
+                    var menuCommandId = new CommandID(GuidList.guidSPFileCopyCmdSet, (int)PkgCmdIDList.cmdidUpdateFileReferences);
+                    //var menuItem = new MenuCommand(MenuItemCallback, menuCommandId );
+
+                    var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandId);
+                    menuItem.BeforeQueryStatus += menuCommand_BeforeQueryStatus;
+                    mcs.AddCommand(menuItem);
+                }
+
+                var dte = (DTE2)GetService(typeof(DTE));
+                var dteEvents = (Events2)dte.Events;
+
+                _projItemsEvents = dteEvents.ProjectItemsEvents;
+
+                _projItemsEvents.ItemRenamed += ProjectItemsEvents_ItemRenamed;
+                _projItemsEvents.ItemAdded += ProjectItemsEvents_ItemAdded;
+                _projItemsEvents.ItemRemoved += ProjectItemsEvents_ItemRemoved;
+
+                //remember to declare it
+                _docEvents = dteEvents.DocumentEvents; // defend against Garbage Collector
+
+                _docEvents.DocumentSaved += DocumentEvents_DocumentSaved;
             }
-
-            var dte = (DTE2)GetService(typeof(DTE));
-            var dteEvents = (Events2)dte.Events;
-
-            _projItemsEvents = dteEvents.ProjectItemsEvents;
-
-            _projItemsEvents.ItemRenamed += ProjectItemsEvents_ItemRenamed;
-            _projItemsEvents.ItemAdded += ProjectItemsEvents_ItemAdded;
-            _projItemsEvents.ItemRemoved += ProjectItemsEvents_ItemRemoved;
-
-            //remember to declare it
-            _docEvents = dteEvents.DocumentEvents; // defend against Garbage Collector
-
-            _docEvents.DocumentSaved += DocumentEvents_DocumentSaved;
+            catch (Exception ex)
+            {
+                var error = string.Format("[Error] Exception in Initialize: {0}", ex.Message);
+                LogToOutput(error);
+            }
         }
         #endregion
 
@@ -176,7 +186,7 @@ namespace Britehouse.SPFileCopy
                 if (hierarchy == null) return false;
 
                 Guid guidProjectId;
-                
+
                 return !ErrorHandler.Failed(solution.GetGuidOfProject(hierarchy, out guidProjectId));
 
                 // if we got this far then there is a single project item selected
@@ -203,7 +213,7 @@ namespace Britehouse.SPFileCopy
         private void MenuItemCallback(object sender, EventArgs e)
         {
             // Get the file path
-            
+
             var hs = GetFileMappings(null);
             if (hs == null)
             {
@@ -248,12 +258,12 @@ namespace Britehouse.SPFileCopy
                 }
 
                 var q = (from b in xDoc.Root.Descendants("mapping")
-                        select new Mapping()
-                        {
-                            Site = (string)b.Element("site"),
-                            Source = (string)b.Element("source"),
-                            Target = (string)b.Element("target")
-                        }).ToList();
+                         select new Mapping()
+                         {
+                             Site = (string)b.Element("site"),
+                             Source = (string)b.Element("source"),
+                             Target = (string)b.Element("target")
+                         }).ToList();
 
                 return q;
             }
@@ -374,13 +384,13 @@ namespace Britehouse.SPFileCopy
             string fileName;
             try
             {
-               fileName = project.ProjectItems.Item("SPFileCopy.config").FileNames[1];
+                fileName = project.ProjectItems.Item("SPFileCopy.config").FileNames[1];
             }
             catch
             {
                 return null;
             }
-            
+
             try
             {
                 var xDoc = XDocument.Load(fileName);
@@ -390,17 +400,17 @@ namespace Britehouse.SPFileCopy
                 }
 
                 var q = (from b in xDoc.Root.Descendants("mapping")
-                    let approveElement = b.Element("approve")
-                    let publishElement = b.Element("publish")
-                    let checkoutElement = b.Element("checkout")
-                    let siteElement = b.Element("site")
-                    where siteElement != null
-                    let sourceElement = b.Element("source")
-                    where sourceElement != null
-                    let targetElement = b.Element("target")
-                    where targetElement != null
-                    where filePath.ToLower().Contains(sourceElement.Value.ToLower())
-                    select new Mapping()
+                         let approveElement = b.Element("approve")
+                         let publishElement = b.Element("publish")
+                         let checkoutElement = b.Element("checkout")
+                         let siteElement = b.Element("site")
+                         where siteElement != null
+                         let sourceElement = b.Element("source")
+                         where sourceElement != null
+                         let targetElement = b.Element("target")
+                         where targetElement != null
+                         where filePath.ToLower().Contains(sourceElement.Value.ToLower())
+                         select new Mapping()
                          {
                              Site = siteElement.Value,
                              Source = sourceElement.Value,
@@ -432,7 +442,7 @@ namespace Britehouse.SPFileCopy
                 return null;
             }
         }
-      
+
         private void CopyFiles(Document document)
         {
             var mappings = GetMapping(document.ProjectItem.ContainingProject, document.Path);
@@ -463,7 +473,7 @@ namespace Britehouse.SPFileCopy
             {
                 try
                 {
-                    ctx = new ClientContext(mapping.Site) { Credentials = GetCredentials(mapping.Site)};
+                    ctx = new ClientContext(mapping.Site) { Credentials = GetCredentials(mapping.Site) };
                     web = ctx.Web;
                     web.EnsureProperty(w => w.ServerRelativeUrl);
                 }
@@ -475,14 +485,14 @@ namespace Britehouse.SPFileCopy
                     }
                     ctx = null;
                 }
-                
+
                 folders = new Hashtable();
             }
 
             Folder folder;
             if (folders.ContainsKey(mapping.FullTargetFolder))
             {
-                folder = (Folder) folders[mapping.FullTargetFolder];
+                folder = (Folder)folders[mapping.FullTargetFolder];
             }
             else
             {
@@ -491,7 +501,7 @@ namespace Britehouse.SPFileCopy
             }
 
             var fileUrl = UrlUtility.Combine(folder.ServerRelativeUrl, Path.GetFileName(source));
-            
+
             // Check if the file exists
             if (mapping.Checkout)
             {

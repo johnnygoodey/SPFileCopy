@@ -9,11 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		UnitTests.testsettings = UnitTests.testsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPFileCopy", "SPFileCopy\SPFileCopy.csproj", "{F6C336D0-6C87-4157-A0D3-6AA1484E5660}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPFileCopy.VS2013.SP2013", "SPFileCopy\SPFileCopy.VS2013.SP2013.csproj", "{F6C336D0-6C87-4157-A0D3-6AA1484E5660}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPFileCopy_IntegrationTests", "SPFileCopy\SPFileCopy_IntegrationTests\SPFileCopy_IntegrationTests.csproj", "{9CC6DF8F-D892-4E91-A430-C7CC95FCE9FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPFileCopy_UnitTests", "SPFileCopy\SPFileCopy_UnitTests\SPFileCopy_UnitTests.csproj", "{E8B02F25-EE9C-4541-9073-D1EBFC944BFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPFileCopy.VS2015.SP2013", "SPFileCopy.VS2015.SP2013\SPFileCopy.VS2015.SP2013.csproj", "{01B42AFB-30BC-4211-9C38-649949E59C46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E8B02F25-EE9C-4541-9073-D1EBFC944BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8B02F25-EE9C-4541-9073-D1EBFC944BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8B02F25-EE9C-4541-9073-D1EBFC944BFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01B42AFB-30BC-4211-9C38-649949E59C46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01B42AFB-30BC-4211-9C38-649949E59C46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01B42AFB-30BC-4211-9C38-649949E59C46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01B42AFB-30BC-4211-9C38-649949E59C46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

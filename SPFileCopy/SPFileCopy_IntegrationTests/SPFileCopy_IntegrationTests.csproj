@@ -73,9 +73,9 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SPFileCopy.csproj">
+    <ProjectReference Include="..\SPFileCopy.VS2013.SP2013.csproj">
       <Project>{F6C336D0-6C87-4157-A0D3-6AA1484E5660}</Project>
-      <Name>SPFileCopy</Name>
+      <Name>SPFileCopy.VS2013.SP2013</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -1,17 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="13250768-13a6-4632-8d49-a47011d5087c" Version="1.6.0.1" Language="en-US" Publisher="Johnny Goodey" />
-    <DisplayName>SPFileCopy</DisplayName>
-    <Description xml:space="preserve">Copies files on save to another location</Description>
+    <Identity Id="SPFileCopy.VS2015.SP2013.Johnny Goodey.f210c22d-b933-493c-8ba9-f2107a1a0358" Version="1.0" Language="en-US" Publisher="Johnny Goodey" />
+    <DisplayName>SPFileCopy.VS2015.SP2013</DisplayName>
+    <Description>Empty VSIX Project.</Description>
   </Metadata>
-  <Installation InstalledByMsi="false">
-    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Enterprise" />
-    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Pro" />
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-    <Dependency Id="Microsoft.VisualStudio.MPF.12.0" DisplayName="Visual Studio MPF 12.0" d:Source="Installed" Version="[12.0]" />
+    <Dependency Id="Microsoft.VisualStudio.MPF.14.0" DisplayName="Visual Studio MPF 14.0" d:Source="Installed" Version="[14.0]" />
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
